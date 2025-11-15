@@ -122,7 +122,7 @@ const Login: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full px-30 py-3 rounded-2xl hover:shadow mt-6"
+              className="w-full px-30 py-3 rounded-2xl hover:shadow mt-6 hover:cursor-pointer"
               style={{
                 backgroundColor: 'rgba(191, 219, 254, 0.8)'
               }}
@@ -150,7 +150,7 @@ const Login: React.FC = () => {
                 setEmail('');
                 setPassword('');
               }}
-              className="underline hover:text-gray-900 transition-colors"
+              className="underline hover:text-gray-900 transition-colors hover:cursor-pointer"
             >
               {isLogin ? 'Sign Up' : 'Log In'}
             </button>

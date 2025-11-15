@@ -1,6 +1,9 @@
 import styles from './Home.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className='bg-white/60 my-15 mx-25 p-15 rounded-[50px]'>
       <h1 className='text-[60px]'>Welcome to Flowstate</h1>
@@ -26,7 +29,7 @@ const Home: React.FC = () => {
       </div>
     </span>
 
-    <div className='flex items-center gap-5 justify-center transition-transform duration-200 hover:-translate-y-1'>
+    <div onClick={() => navigate('/login')} className='flex items-center gap-5 justify-center transition-transform duration-200 hover:-translate-y-1 hover:cursor-pointer'>
       <p className='inline text-[40px]'>Enter your flowstate</p>
       <img className='inline' src='../../public/pixelArrow.png' alt="Pixelated Arrow" />
     </div>
