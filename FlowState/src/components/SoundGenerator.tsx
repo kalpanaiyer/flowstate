@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ELEVENLABS_API_KEY = import.meta.env.ELEVENLABS_API_KEY; 
+const ELEVENLABS_API_KEY = import.meta.env.VITE_ELEVENLABS_API_KEY; 
 const SOUND_MODEL_ID: string = 'eleven_text_to_sound_v2'; 
 
 const App: React.FC = () => {
@@ -18,7 +18,6 @@ const App: React.FC = () => {
     setError('');
 
     try {
-      // 1. Send the text prompt to the ElevenLabs API
       const response = await fetch(
         `https://api.elevenlabs.io/v1/sound-generation`, 
         {
@@ -36,35 +35,31 @@ const App: React.FC = () => {
       );
 
       if (!response.ok) {
-        // Log the full response text for advanced debugging
         const errorBody = await response.text();
         console.error("ElevenLabs Error Details:", errorBody);
         
         let errorMessage = `API error ${response.status}: ${response.statusText}.`;
         
-        // Attempt to parse a more readable error message from the body
         try {
             const errorJson = JSON.parse(errorBody);
             if (errorJson.detail) {
                 errorMessage = errorJson.detail.message || JSON.stringify(errorJson.detail);
             }
         } catch (e) {
-            // Ignore if body is not JSON
+            console.log("AHHHH")
         }
 
         throw new Error(errorMessage);
       }
 
-      // 2. Receive the audio data (which is a binary file)
       const audioBuffer: ArrayBuffer = await response.arrayBuffer();
       
-      // 3. Convert the ArrayBuffer to a Blob and create a temporary URL for the <audio> element
       const audioBlob: Blob = new Blob([audioBuffer], { type: 'audio/mpeg' });
       const url: string = URL.createObjectURL(audioBlob);
       setAudioURL(url);
 
     } catch (err) {
-      const error = err as Error; // Type assertion for safer error handling
+      const error = err as Error; 
       console.error("ElevenLabs API Error:", error);
       setError(`Failed to generate sound: ${error.message || 'Check console for details.'}`);
     } finally {
@@ -79,29 +74,23 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-lg bg-white p-8 rounded-xl shadow-2xl border border-gray-200">
-        <h1 className="text-3xl font-extrabold text-gray-900 mb-6 text-center">
-          AI Sound Generator (TSX)
-        </h1>
-        <p className="text-sm text-gray-500 mb-6 text-center">
-          Enter a descriptive prompt and hit 'Generate' to create a sound effect or music clip.
-        </p>
+    <div>
         
-        <div className="flex flex-col space-y-4">
+
+        <div className="flex flex-row space-x-4 items-end"> 
           <input
             type="text"
             value={prompt}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrompt(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="e.g., A gentle river flow, or A heavy metal guitar riff"
+            placeholder="e.g. White Noise or Calm Ocean"
             disabled={isLoading}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+            className="w-60 px-4 py-3 border border-blue-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150 bg-white"
           />
           <button 
             onClick={generateSound} 
             disabled={isLoading || !prompt.trim() || error.includes("set your MOCK_API_KEY")}
-            className={`w-full py-3 px-4 rounded-lg font-semibold transition duration-200 shadow-md ${
+            className={`w-auto py-3 px-4 rounded-lg font-semibold transition duration-200 shadow-md ${
               (isLoading || !prompt.trim() || error.includes("set your MOCK_API_KEY")) 
                 ? 'bg-blue-300 cursor-not-allowed' 
                 : 'bg-blue-600 text-white hover:bg-blue-700 active:scale-95'
@@ -126,8 +115,7 @@ const App: React.FC = () => {
         )}
 
         {audioURL && (
-          <div className="mt-6 p-4 bg-green-50 rounded-lg shadow-inner">
-            <h3 className="text-lg font-semibold text-green-800 mb-3">Playback:</h3>
+          <div className="w-150 mt-6 p-4 bg-green-50 rounded-lg shadow-inner">
             {/* The HTML5 Audio Element for Playback */}
             <audio 
               controls 
@@ -136,16 +124,8 @@ const App: React.FC = () => {
               onPlay={() => console.log('Audio playing!')}
               onError={(e: React.SyntheticEvent<HTMLAudioElement, Event>) => console.error('Audio playback error:', e)}
             />
-            <p className="mt-2 text-xs text-green-700">Prompt used: "{prompt}"</p>
           </div>
         )}
-
-        <div className="mt-8 pt-4 border-t border-gray-100 text-xs text-gray-400 text-center">
-            <p>
-                This application uses a browser-compatible <code className="bg-gray-100 p-0.5 rounded">fetch</code> call. The <code className="bg-gray-100 p-0.5 rounded">play()</code> utility is strictly for Node.js environments.
-            </p>
-        </div>
-      </div>
     </div>
   );
 };
