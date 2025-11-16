@@ -1,2 +1,5 @@
 # Flow State
-Our hack for Technica 2025. 
+Hack for Technica 2025. 
+
+
+Supporting neurodivergent people with personalized soundscapes.
