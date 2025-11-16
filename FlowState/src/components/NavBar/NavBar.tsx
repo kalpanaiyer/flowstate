@@ -5,7 +5,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { getUserNotes } from '../../services/NotesService.tsx';
 import { db } from '../../../firebase.ts';
 import { doc, onSnapshot } from 'firebase/firestore';
-import './Navbar.css';
+import "./NavBar.css";
 import logo from '/images/logos/testlogo.png';
 import NotesButton from '../NotesButton/NotesButton.tsx';
 import dashboardIcon from '/images/menu/dashboardicon.svg';
