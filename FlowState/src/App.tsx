@@ -5,7 +5,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import Login from './pages/Login_new'
 import Store from './pages/Store';
 import Profile from './pages/Profile.tsx';
-
+import Dashboard from './pages/Dashboard/Dashboard';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 function App() {
