@@ -20,6 +20,8 @@ const Navbar: React.FC = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  
+  const activePath = location.pathname;
 
   const handleNavigation = (path: string) => {
     navigate(path);
@@ -56,22 +58,23 @@ const Navbar: React.FC = () => {
         </div>
         
         <div className="menu-items">
-          <button className="menu-item" onClick={() => handleNavigation('/dashboard')}>
+          <button onClick={() => handleNavigation('/dashboard')}
+            className={`menu-item ${activePath === '/dashboard' ? 'active' : ''}`}>
                 <img src={dashboardIcon} className="menu-icon" alt="Dashboard" />
                 <span>Dashboard</span>
             </button>
 
-            <button className="menu-item" onClick={() => handleNavigation('/shop')}>
+            <button className={`menu-item ${activePath === '/shop' ? 'active' : ''}`} onClick={() => handleNavigation('/shop')}>
                 <img src={notesIcon} className="menu-icon" alt="Shop" />
                 <span>Notes Shop</span>
             </button>
 
-            <button className="menu-item active" onClick={() => handleNavigation('/profile')}>
+            <button className={`menu-item ${activePath === '/profile' ? 'active' : ''}`} onClick={() => handleNavigation('/profile')}>
                 <img src={profileIcon} className="menu-icon" alt="Profile" />
                 <span>Profile</span>
             </button>
 
-            <button className="menu-item" onClick={() => handleNavigation('/settings')}>
+            <button className={`menu-item ${activePath === '/settings' ? 'active' : ''}`}onClick={() => handleNavigation('/settings')}>
                 <img src={settingsIcon} className="menu-icon" alt="Settings" />
                 <span>Settings</span>
             </button>
