@@ -1,14 +1,34 @@
 import React from 'react';
 import { useState } from 'react';
 import EnvironInvenCard from './EnvCards/EnvironInvenCard';
+import AudioInvenCard from './AudioCards/AudioInvenCard';
 
-// function SoundContent() {
-//   return (
-//     <div className='flex gap-5'>
-      
-//     </div>
-//   );
-// };
+function SoundContent() {
+  return (
+    <div className='flex gap-5 flex-wrap'>
+      <AudioInvenCard
+        image='/images/sound_icons/rain.svg'
+        name='Rainy Day'
+      />
+      <AudioInvenCard
+        image='/images/sound_icons/brown_noise.png'
+        name='Brown Noise'
+      />
+      <AudioInvenCard
+        image='/images/sound_icons/water.svg'
+        name='River Flow'
+      />
+      <AudioInvenCard
+        image='/images/sound_icons/gong.svg'
+        name='Soundbath'
+      />
+      <AudioInvenCard
+        image='/images/sound_icons/sound-waves.svg'
+        name='White Noise'
+      />
+    </div>
+  );
+};
 
 function EnvironmentContent() {
   return (
@@ -17,8 +37,14 @@ function EnvironmentContent() {
         image='/images/underwater.png'
         name='Under the Sea'
       />
-      <EnvironInvenCard />
-      <EnvironInvenCard />
+      <EnvironInvenCard
+        image='/images/rainforest_bg.jpg'
+        name='Rainforest'
+      />
+      <EnvironInvenCard
+        image='/images/cafe_bg.gif'
+        name='Cafe'
+      />
       <EnvironInvenCard />
       <EnvironInvenCard />
       <EnvironInvenCard />
@@ -55,7 +81,7 @@ const Inventory: React.FC = () => {
 
       <div>
         {activeTab === 'tab1' && <EnvironmentContent/>}
-        {/* {activeTab === 'tab2' && <SoundContent/>} */}
+        {activeTab === 'tab2' && <SoundContent/>}
       </div>
     </div>
   );
