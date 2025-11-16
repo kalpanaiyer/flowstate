@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { auth } from '../../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { getUserNotes } from '../services/NotesService';
 import './Navbar.css';
 import logo from '/testlogo.png';
 import NotesButton from './NotesButton.tsx';
@@ -7,10 +10,40 @@ import dashboardIcon from '/dashboardicon.svg';
 import notesIcon from '/notesshopicon.svg';
 import profileIcon from '/profileicon.svg';
 
-
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [notesCount, setNotesCount] = useState(0);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const notes = await getUserNotes(user.uid);
+        setNotesCount(notes);
+      } else {
+        setNotesCount(0);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Function to refresh notes count
+  const refreshNotes = async () => {
+    const user = auth.currentUser;
+    if (user) {
+      const notes = await getUserNotes(user.uid);
+      setNotesCount(notes);
+    }
+  };
+
+  // Expose refresh function globally
+  useEffect(() => {
+    (window as any).refreshNavbarNotes = refreshNotes;
+    return () => {
+      delete (window as any).refreshNavbarNotes;
+    };
+  }, []);
 
   const handleLogoClick = () => {
     navigate('/dashboard');
@@ -41,7 +74,7 @@ const Navbar: React.FC = () => {
         </div>
         
         <div className="navbar-right">
-          <NotesButton count={10} />
+          <NotesButton count={notesCount} onRefresh={refreshNotes} />
           <button className="menu-button" onClick={toggleMenu}>
             <div className="menu-icon">
               <span></span>
