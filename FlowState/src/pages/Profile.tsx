@@ -12,6 +12,7 @@ const Profile: React.FC = () => {
   const [userEmail, setUserEmail] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
