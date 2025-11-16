@@ -82,7 +82,7 @@ const SoundModal: React.FC<SoundGeneratorUIProps> = ({
         <div className="mainContent">
           {activeTab === "generate" ? (
             <div className="generateContent">
-              <div className="mt-12 w-full">
+              <div className="mb-55 w-full">
                 <SoundGenerator />
               </div>
             </div>
@@ -218,7 +218,7 @@ const SoundModal: React.FC<SoundGeneratorUIProps> = ({
         .container {
           width: 50%;
           max-width: 600px;
-          height: 500px;
+          height: 400px;
           background: linear-gradient(135deg, #5b9ab8 0%, #4a8ca8 100%);
           border-radius: 24px;
           padding: 24px;
@@ -306,9 +306,10 @@ const SoundModal: React.FC<SoundGeneratorUIProps> = ({
 
         .soundsGrid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
           gap: 16px;
           padding: 8px;
+          padding-bottom: 5rem;
         }
 
         .bottomControls {
