@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { auth } from '../../firebase';
+import { addNotesToUser } from '../services/NotesService';
 import './SpinWheel.css';
 
 interface SpinWheelProps {
   onClose: () => void;
+  onNotesAdded?: () => void;
 }
 
-const SpinWheel: React.FC<SpinWheelProps> = ({ onClose }) => {
+const SpinWheel: React.FC<SpinWheelProps> = ({ onClose, onNotesAdded }) => {
   const [isSpinning, setIsSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [result, setResult] = useState<number | null>(null);
@@ -22,32 +25,49 @@ const SpinWheel: React.FC<SpinWheelProps> = ({ onClose }) => {
     { points: 10, color: '#E8D5F2' },
     { points: 5, color: '#F4CAE0' },
     { points: 25, color: '#E8D5F2' },
-    { points: 100, color: '#FFD700' } // Tiny golden slice
+    { points: 100, color: '#FFD700' }
   ];
 
   const totalSegments = segments.length;
   const segmentAngle = 360 / totalSegments;
 
-  const spinWheel = () => {
+  const spinWheel = async () => {
     if (isSpinning) return;
 
     setIsSpinning(true);
     setResult(null);
 
-    // Random spins between 5-8 full rotations plus random angle
     const spins = 5 + Math.random() * 3;
     const randomAngle = Math.random() * 360;
     const totalRotation = rotation + (spins * 360) + randomAngle;
 
     setRotation(totalRotation);
 
-    // Calculate which segment we landed on
-    setTimeout(() => {
-      // The pointer is at the top (0 degrees), so we need to calculate from there
+    setTimeout(async () => {
       const normalizedAngle = (360 - (totalRotation % 360)) % 360;
       const segmentIndex = Math.floor(normalizedAngle / segmentAngle) % totalSegments;
+      const wonPoints = segments[segmentIndex].points;
       
-      setResult(segments[segmentIndex].points);
+      setResult(wonPoints);
+      
+      // Add notes to user's account
+      const user = auth.currentUser;
+      if (user) {
+        try {
+          await addNotesToUser(user.uid, wonPoints);
+          if (onNotesAdded) {
+            onNotesAdded();
+          }
+          // Also refresh navbar
+          if ((window as any).refreshNavbarNotes) {
+            (window as any).refreshNavbarNotes();
+          }
+        } catch (error) {
+          console.error('Error adding notes:', error);
+          alert('Error adding notes to your account');
+        }
+      }
+      
       setIsSpinning(false);
     }, 5000);
   };
@@ -121,7 +141,6 @@ const SpinWheel: React.FC<SpinWheelProps> = ({ onClose }) => {
               );
             })}
             
-            {/* Center circle */}
             <circle cx="200" cy="200" r="35" fill="#5D608A" />
             <text
               x="200"

@@ -16,6 +16,7 @@ const Session: React.FC = () => {
         <div className='flex justify-start mt-[1rem]'>
             <Todo/>
         </div>
+        </div>
         </>
     )
 }
