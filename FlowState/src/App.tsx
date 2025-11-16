@@ -4,6 +4,7 @@ import Login from './pages/Login_new'
 import Store from './pages/Store';
 import Profile from './pages/Profile.tsx';
 import Dashboard from './pages/Dashboard/Dashboard.tsx'
+import Session from './pages/Session/Session.tsx'
 import ProtectedRoute from './components/ProtectedRoute.tsx';
 import { AuthProvider } from './auth/AuthProvider.tsx';
 
@@ -41,6 +42,16 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
+             <Route
+              path="/session"
+              element={
+                <ProtectedRoute>
+                  <Session />
+                </ProtectedRoute>
+              }
+            />
+            
           </Routes>
         </AuthProvider>
       </BrowserRouter>
