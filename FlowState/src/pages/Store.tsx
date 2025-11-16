@@ -2,6 +2,7 @@ import AudioCard from '../components/AudioCard';
 import PurchasePrompt from '../components/PurchasePrompt';
 import './Store.css';
 import { useState } from 'react';
+import Navbar from '../components/NavBar';
 
 interface SelectedItem {
   name: string;
@@ -62,47 +63,51 @@ const Store: React.FC = () => {
   };
   
   return (
-    <div className='store-page p-10'>
-      <h1 className='text-[64px]'>STORE</h1>
-      <p className='text-[#696969] text-[40px] mb-10'>Use your notes to purchase new sounds or environments!</p>
+    <>
+      <Navbar />
 
-      <div className="flex gap-5">
-        <button
-          onClick={() => setActiveTab('tab1')}
-          className={`rounded-[15px] w-[198px] h-[39px] font-[Pixelify_Sans] text-[24px] mb-5 hover:cursor-pointer ${
-            activeTab === 'tab1'
-              ? 'bg-white text-[#ADA7C9]'
-              : 'bg-[#ADA7C9] text-white'
-          }`}
-        >
-          Environments
-        </button>
-        <button
-          onClick={() => setActiveTab('tab2')}
-          className={`rounded-[15px] w-[198px] h-[39px] font-[Pixelify_Sans] text-[24px] mb-5 hover:cursor-pointer ${
-            activeTab === 'tab2'
-              ? 'bg-white text-[#ADA7C9]'
-              : 'bg-[#ADA7C9] text-white'
-          }`}
-        >
-          Sounds
-        </button>
+      <div className='store-page p-10'>
+        <h1 className='text-[64px]'>STORE</h1>
+        <p className='text-[#696969] text-[40px] mb-10'>Use your notes to purchase new sounds or environments!</p>
+
+        <div className="flex gap-5">
+          <button
+            onClick={() => setActiveTab('tab1')}
+            className={`rounded-[15px] w-[198px] h-[39px] font-[Pixelify_Sans] text-[24px] mb-5 hover:cursor-pointer ${
+              activeTab === 'tab1'
+                ? 'bg-white text-[#ADA7C9]'
+                : 'bg-[#ADA7C9] text-white'
+            }`}
+          >
+            Environments
+          </button>
+          <button
+            onClick={() => setActiveTab('tab2')}
+            className={`rounded-[15px] w-[198px] h-[39px] font-[Pixelify_Sans] text-[24px] mb-5 hover:cursor-pointer ${
+              activeTab === 'tab2'
+                ? 'bg-white text-[#ADA7C9]'
+                : 'bg-[#ADA7C9] text-white'
+            }`}
+          >
+            Sounds
+          </button>
+        </div>
+
+        <div>
+          {activeTab === 'tab1' && <EnvironmentContent />}
+          {activeTab === 'tab2' && <SoundContent onPurchaseClick={handlePurchaseClick} />}
+        </div>
+
+        <PurchasePrompt
+          isOpen={selectedItem !== null}
+          itemName={selectedItem?.name || ''}
+          itemPrice={selectedItem?.price || 0}
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+        />
+        
       </div>
-
-      <div>
-        {activeTab === 'tab1' && <EnvironmentContent />}
-        {activeTab === 'tab2' && <SoundContent onPurchaseClick={handlePurchaseClick} />}
-      </div>
-
-      <PurchasePrompt
-        isOpen={selectedItem !== null}
-        itemName={selectedItem?.name || ''}
-        itemPrice={selectedItem?.price || 0}
-        onConfirm={handleConfirm}
-        onCancel={handleCancel}
-      />
-      
-    </div>
+    </>
   );
 };
 
