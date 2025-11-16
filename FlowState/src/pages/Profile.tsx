@@ -42,8 +42,32 @@ const Profile: React.FC = () => {
       <div className="profile-layout">
         <div className="left-section">
           <h1 className="page-title">PROFILE</h1>
-          <Badges />
-          <Inventory />
+          
+          <div className="badges-container">
+            <h3>Your Badges</h3>
+            <div className='badges-list'>
+              <Badges image='/images/coffee.png'/>
+              <Badges image='/images/coffee.png'/>
+              <Badges image='/images/coffee.png'/>
+              <Badges image='/images/coffee.png'/>
+              <Badges image='/images/coffee.png'/>
+              <Badges image='/images/coffee.png'/>
+              <Badges image='/images/coffee.png'/>
+              <Badges image='/images/coffee.png'/>
+              <Badges image='/images/coffee.png'/>
+              <Badges image='/images/coffee.png'/>
+              <Badges image='/images/coffee.png'/>
+              <Badges image='/images/coffee.png'/>
+              <Badges image='/images/coffee.png'/>
+              <Badges image='/images/coffee.png'/>
+            </div>
+          </div>
+
+          <div className="inventory-container">
+            <h3>Inventory</h3>
+            <Inventory />
+          </div>
+          
         </div>
         
         <div className="right-section">
