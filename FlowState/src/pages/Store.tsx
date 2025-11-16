@@ -8,6 +8,7 @@ const Store: React.FC = () => {
         name='Rainy Day'
         description='A calming soundscape mirroring a rainy day.'
         notes_amt={25}
+        audio='/audio/rainnoise.mp3'
       />
     
     </>

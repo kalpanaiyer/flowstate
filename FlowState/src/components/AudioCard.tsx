@@ -5,6 +5,7 @@ interface AudioCardProps {
   name: string;
   description: string;
   notes_amt: number;
+  audio: string;
 }
 
 const AudioCard: React.FC<AudioCardProps> = (props) => {
@@ -19,7 +20,7 @@ const AudioCard: React.FC<AudioCardProps> = (props) => {
         <div className="flex-col">
           <p className='font-[Pixelify_Sans] text-[32px] font-bold'>{props.name}</p>
           <p className='text-xl mb-1'>{props.description}</p>
-          <AudioButton audioPath="/audio/brownnoise.mp3" />
+          <AudioButton audioPath={props.audio} />
         </div>
       </span>
 
