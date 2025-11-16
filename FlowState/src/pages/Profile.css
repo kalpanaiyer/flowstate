@@ -23,11 +23,12 @@
 .left-section {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 0.4rem;
 }
 
 .right-section {
   display: flex;
   justify-content: flex-end;
   align-items: start; 
+  margin-top: 4.5rem;
 }
